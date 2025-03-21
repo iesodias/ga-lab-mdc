@@ -123,3 +123,5 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
     }
   }
 }
+
+

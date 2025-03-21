@@ -18,9 +18,23 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Criar o resource group (caso não exista)
+        run: |
+          az group create \
+            --name MeuGrupoBicep \
+            --location eastus
+
       - name: Deploy do Bicep
         run: |
           az deployment group create \
             --resource-group MeuGrupoBicep \
             --template-file main.bicep \
             --parameters adminPassword='${{ secrets.ADMIN_PASSWORD }}'
+
+      - name: Obter IP público da VM
+        run: |
+          az network public-ip show \
+            --resource-group MeuGrupoBicep \
+            --name mac-lab-bicep-pip \
+            --query ipAddress \
+            --output tsv
